@@ -26,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         $router->patterns([
             'MENU_ID'=>'[0-9]+',
+            'RESE_ID'=>'[0-9]+',
         ]);
         parent::boot($router);
     }

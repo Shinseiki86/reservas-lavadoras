@@ -83,10 +83,12 @@ use LAVA\Models\Permission;
                 $this->createPermissions(Ciudad::class, 'ciudades', null, true, false);
 
                 $perms = $this->createPermissions(Lavadora::class, 'lavadoras', null, true, false);
+                $perms = $this->createPermissions(reserva::class, 'reservas', null, true, false);
                 $this->rolUser->attachPermissions([
                     $perms['index'],
                     $perms['create'],
                     $perms['edit'],
+                    $perms['delete'],
                 ]);
                 
                 /*$listasistencia = Permission::create([

@@ -26,7 +26,7 @@ class Lavadora extends ModelWithSoftDeletes
 	public static function rules($id = 0){
 		return [
 			'LAVA_DESCRIPCION' => 'required|max:300|'.static::unique($id,'LAVA_DESCRIPCION'),
-			'LAVA_CAPACIDAD' => ['number'],
+			'LAVA_CAPACIDAD' => ['numeric'],
 			'LAVA_OBSERVACIONES' => ['max:300'],
 		];
 	}

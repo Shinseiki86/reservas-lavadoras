@@ -54,9 +54,15 @@ Route::group(['prefix'=>'reportes', 'namespace'=>'Reportes', 'middleware'=>'auth
 	Route::post('LogsAuditorias', 'RptAuditoriasController@logsAuditoria');
 });
 
-Route::group(['prefix'=>'cnfg-contratos', 'namespace'=>'CnfgContratos'], function() {
+Route::group(['prefix'=>'core', 'namespace'=>'Core'], function() {
 	//Route::resource('tiposcontratos', 'TipoContratoController', ['parameters'=>['tiposcontratos'=>'TICO_ID']]);
-	Route::resource('atributos', 'AtributoController');
+	Route::resource('lavadoras', 'LavadoraController');
+
+	Route::resource('reservas', 'ReservaController', ['parameters'=>['reservas'=>'RESE_ID']]);
+	Route::get('reservas/cargaEventos','ReservaController@cargaEventos');
+	Route::post('reservas/guardaEventos', array('as' => 'guardaEventos','uses' => 'ReservaController@store'));
+	Route::get('reservas/guardarReservas', 'ReservaController@guardarReservas');
+	//Route::post('reservas/getFestivos', array('as' => 'getFestivos','uses' => 'FestivosController@getFestivos'));
 });
 
 Route::group(['prefix'=>'cnfg-geograficos', 'namespace'=>'CnfgGeograficos'], function() {

@@ -1,15 +1,15 @@
 <?php
 
-namespace LAVA\Http\Controllers\CnfgContratos;
+namespace LAVA\Http\Controllers\Core;
 
 use LAVA\Http\Controllers\Controller;
 
-use LAVA\Models\Atributo;
+use LAVA\Models\Lavadora;
 
-class AtributoController extends Controller
+class LavadoraController extends Controller
 {
-	protected $route = 'cnfg-contratos.atributos';
-	protected $class = Atributo::class;
+	protected $route = 'core.lavadoras';
+	protected $class = Lavadora::class;
 
 	public function __construct()
 	{
@@ -24,9 +24,9 @@ class AtributoController extends Controller
 	public function index()
 	{
 		//Se obtienen todos los registros.
-		$atributos = Atributo::all();
+		$lavadoras = Lavadora::all();
 		//Se carga la vista y se pasan los registros
-		return view($this->route.'.index', compact('atributos'));
+		return view($this->route.'.index', compact('lavadoras'));
 	}
 
 	/**
@@ -53,39 +53,39 @@ class AtributoController extends Controller
 	/**
 	 * Muestra el formulario para editar un registro en particular.
 	 *
-	 * @param  int  $ATRI_ID
+	 * @param  int  $LAVA_ID
 	 * @return Response
 	 */
-	public function edit($ATRI_ID)
+	public function edit($LAVA_ID)
 	{
 		// Se obtiene el registro
-		$atributo = Atributo::findOrFail($ATRI_ID);
+		$lavadora = Lavadora::findOrFail($LAVA_ID);
 
 		// Muestra el formulario de edición y pasa el registro a editar
-		return view($this->route.'.edit', compact('atributo'));
+		return view($this->route.'.edit', compact('lavadora'));
 	}
 
 
 	/**
 	 * Actualiza un registro en la base de datos.
 	 *
-	 * @param  int  $ATRI_ID
+	 * @param  int  $LAVA_ID
 	 * @return Response
 	 */
-	public function update($ATRI_ID)
+	public function update($LAVA_ID)
 	{
-		parent::updateModel($ATRI_ID);
+		parent::updateModel($LAVA_ID);
 	}
 
 	/**
 	 * Elimina un registro de la base de datos.
 	 *
-	 * @param  int  $ATRI_ID
+	 * @param  int  $LAVA_ID
 	 * @return Response
 	 */
-	public function destroy($ATRI_ID)
+	public function destroy($LAVA_ID)
 	{
-		parent::destroyModel($ATRI_ID);
+		parent::destroyModel($LAVA_ID);
 	}
 	
 }

@@ -3,6 +3,7 @@ $(function () {
 	$.fn.datetimepicker.defaults.locale = 'es';
 	$.fn.datetimepicker.defaults.icons  = {
 		date: "fa fa-calendar",
+        time: "fa fa-clock",
 		up: "fa fa-arrow-up",
 		down: "fa fa-arrow-down",
 		previous: 'fa fa-chevron-left',

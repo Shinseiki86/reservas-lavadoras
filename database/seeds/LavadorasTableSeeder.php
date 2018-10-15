@@ -17,17 +17,18 @@ class LavadorasTableSeeder extends Seeder
         Lavadora::create([
             'LAVA_DESCRIPCION' => 'LAVADORA 1',
             'LAVA_CAPACIDAD' => 15,
-            'LAVA_OBSERVACIONES' => '',
+            'LAVA_CREADOPOR' => 'admin',
        ]);
         Lavadora::create([
             'LAVA_DESCRIPCION' => 'LAVADORA 2',
             'LAVA_CAPACIDAD' => 20,
             'LAVA_OBSERVACIONES' => '',
+            'LAVA_CREADOPOR' => 'admin',
        ]);
         Lavadora::create([
             'LAVA_DESCRIPCION' => 'LAVADORA 3',
             'LAVA_CAPACIDAD' => 15,
-            'LAVA_OBSERVACIONES' => '',
+            'LAVA_CREADOPOR' => 'admin',
        ]);
     }
 }
