@@ -93,8 +93,7 @@
 	  <div class="modal-body" id="divmodal" style="padding:40px 50px;">
 		<div class="form-group">                
             <p>
-                <b>Descripción: </b> <span class='AUTO_DESCRIPCION'></span><br>
-                <b>Sede: </b> <span class='SEDE_DESCRIPCION'></span><br>
+                <b>Lavadora: </b> <span class='SEDE_DESCRIPCION'></span><br>
                 <b>Espacio/Sala: </b> <span class='SALA_DESCRIPCION'></span><br>
                 <b>Fecha de Inicio: </b> <span class='RESE_FECHAINI'></span><br>
                 <b>Fecha Fin: </b> <span class='RESE_FECHAFIN'></span><br>

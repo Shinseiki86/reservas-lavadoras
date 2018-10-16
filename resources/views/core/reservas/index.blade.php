@@ -37,7 +37,7 @@
 							<td class="estados hide"></td>
 							<td class="estados aprobada">APROBADA</td>
 							<td class="estados pendiente">PENDIENTE POR APROBAR</td>
-							<td class="estados anulada">ANULADA</td>
+							{{-- <td class="estados anulada">ANULADA</td> --}}
 						</tr>
 					</tbody>
 				</table>
@@ -68,18 +68,25 @@
 		<h2><span class="glyphicon glyphicon-modal-window"></span> Detalle Reserva</h2>
 	  </div>
 	  <div class="modal-body" id="divmodal" style="padding:40px 50px;">
-		<p></p>
-			<div class="form-group">
-            	<label for="nombre"> Duración</label>
-            </div>
+	  		AQUÍ VA LA INFO
 	  </div>
 	  <div class="modal-footer">
-        	<a href="" id="anularReserva" class="btn btn-danger pull-right hide">
-              <span class="glyphicon glyphicon-remove"></span> Anular
-            </a>
-        	<button class="btn btn-success btn-default pull-right" data-dismiss="modal">
-              <span class="glyphicon glyphicon-remove"></span> Cerrar
-            </button>
+				<form id="frmDelete" method="POST" action="" accept-charset="UTF-8" class="frmModal pull-right">
+					<button type="button" class="btn btn-xs btn-default" data-dismiss="modal">
+						<i class="fas fa-times" aria-hidden="true"></i> Cerrar
+					</button>
+
+					{{ Form::token() }}
+					{{ Form::hidden('_method', 'DELETE') }}
+					{{ Form::button('<i class="fas fa-trash" aria-hidden="true"></i> Anular ',[
+						'class'=>'btn btn-xs btn-danger',
+						'type'=>'submit',
+						'data-toggle'=>'modal',
+						'data-backdrop'=>'static',
+						'data-keyboard'=>'false',
+						//'data-target'=>'#msgModalDeleting',
+					]) }}
+				</form>
           </div>
 	</div>
   </div>

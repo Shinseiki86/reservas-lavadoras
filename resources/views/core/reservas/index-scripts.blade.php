@@ -10,23 +10,6 @@
 				var button = $(event.relatedTarget); // Button that triggered the modal
 				var modal = $(this);
 				
-				var RESE_CREADOPOR = modal.find('.RESE_CREADOPOR').text();
-				var userCurrent = '{{ Auth::user()->username }}';
-				var rolCurrent = 'admin';
-				{{-- \Entrust:: --}}
-
-				if(userCurrent == RESE_CREADOPOR || rolCurrent == 'admin'){
-					var AUTO_ID = modal.find('.AUTO_ID').text();
-					var btnAnular = modal.find('#anularReserva');
-					btnAnular
-						.attr('href', 'reservas/anular/'+AUTO_ID)
-						.removeClass('hide');
-				}else{
-					btnAnular
-						.attr('href', 'reservas/anular/'+AUTO_ID)
-						.removeClass('hide');
-
-				}
 			});
 
 			$('#anularReserva').on('click', function (event) {
@@ -291,22 +274,39 @@
 		},
 		eventClick: function(calEvent, jsEvent, view) {
 			//Visualizar Popup con los detalles de la reserva
-			var start = moment(calEvent.start).format('YYYY-MM-DD HH:mm:ss');
-			var end = moment(calEvent.end).format('YYYY-MM-DD HH:mm:ss');
+			var start = moment(calEvent.start).format('YYYY-MM-DD HH:mm');
+			var end = moment(calEvent.end).format('YYYY-MM-DD HH:mm');
+			var modal = $('#modalReserva');
+			var info = $('#divmodal');
+			info.empty();
+			info.append("<span class='LAVA_ID hide'>"+calEvent.LAVA_ID+"</span>");
+			info.append("<p><b>Lavadora: </b> "+calEvent.LAVA_DESCRIPCION+" <b>Estado:</b> " +calEvent.ESRE_NOMBRE+ "</p>");
+			info.append("<p><b>Inicio: </b> " + start + "<b> Fin: </b> " + end +"</p>");
+			info.append("<p><b>Creado por:</b> <span class='RESE_CREADOPOR'>" +calEvent.RESE_CREADOPOR+ "</span></p>");
 
-			$('#divmodal').empty();
-			$('#divmodal').append("<p><b>Sede: </b> "+calEvent.SEDE_DESCRIPCION+ "<b> Facultad: </b> "+calEvent.UNID_NOMBRE+  "</p>");
-			$('#divmodal').append("<p><b>Grupo: </b> "+calEvent.GRUP_NOMBRE+ "<b> Materia: </b> "+calEvent.MATE_NOMBRE + "</p>");
-			$('#divmodal').append("<p><b>Docente: </b> "+calEvent.PENG_NOMBRE+ "</p>");
-			$('#divmodal').append("<p><b>Espacio/Sala: </b> "+calEvent.SALA_DESCRIPCION+ "</p>");
-			$('#divmodal').append("<p><b>Fecha de Inicio: </b> " + start + "<b> Fecha Fin: </b> " + end +"</p>");
-			$('#divmodal').append("<p><b>Estado:</b> " +calEvent.ESTA_DESCRIPCION+ "</p>");
-			$('#divmodal').append("<p><b>Total reservas:</b> " +calEvent.count_reservas+ "</p>");
-			$('#divmodal').append("<p><b>Creado por:</b> <span class='RESE_CREADOPOR'>" +calEvent.RESE_CREADOPOR+ "</span></p>");
-			$('#divmodal').append("<p><b>Autorización:</b> <span class='AUTO_ID'>" +calEvent.AUTO_ID+ "</span></p>");
-			$('#modalReserva').modal('show');
+
+				var RESE_CREADOPOR = modal.find('.RESE_CREADOPOR').text();
+				var userCurrent = '{{ Auth::user()->username }}';
+				var rolCurrent = 'admin';
+				{{-- \Entrust:: --}}
+
+				var frmDelete = modal.find('#frmDelete');
+				if(userCurrent == RESE_CREADOPOR || rolCurrent == 'admin'){
+					frmDelete
+						.attr('action', 'reservas/'+calEvent.LAVA_ID)
+						.removeClass('hide');
+				}else{
+					frmDelete
+						.attr('action', 'reservas/'+calEvent.LAVA_ID)
+						.removeClass('hide');
+
+				}
+
+
+			modal.modal('show');
 			// change the border color just for fun
 			$(this).css('border-color', 'red');
+
 			//console.log(calEvent);
 		},
 		editable: false,

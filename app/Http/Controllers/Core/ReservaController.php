@@ -49,9 +49,11 @@ class ReservaController extends Controller
 						->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
 						//->where('RESERVAS.LAVA_ID', $LAVA_ID)
 						->select([
+					        "RESE_ID",
 					        "RESE_TITULO",
 					        "RESE_FECHAINI",
 					        "ESRE_COLOR",
+					        "RESERVAS.LAVA_ID",
 					        "LAVA_DESCRIPCION",
 					        "ESRE_NOMBRE",
 					        "RESE_CREADOPOR",
@@ -60,13 +62,14 @@ class ReservaController extends Controller
 
 		foreach ($reservas as $key => $reserva) {
 			$data[] = [
-				"title"=>str_replace('LAVADORA ', 'L', $reserva->RESE_TITULO.'('.$reserva->RESE_CREADOPOR.')'), //obligatoriamente "title", "start" y "url" son campos requeridos
+				"title"=>str_replace('LAVADORA ', 'L', $reserva->RESE_TITULO.' ('.$reserva->RESE_CREADOPOR.')'), //obligatoriamente "title", "start" y "url" son campos requeridos
 				"start"=>$reserva->RESE_FECHAINI, //por el plugin asi que asignamos a cada uno el valor correspondiente
 				"end"=>Carbon::parse($reserva->RESE_FECHAINI)->addHour()->toDateTimeString(),
 				//"allDay"=>$reserva->ALLDAY,
 				"backgroundColor"=>$reserva->ESRE_COLOR,
 				//"borderColor"=>$borde[$i],
 				"RESE_ID"=>$reserva->RESE_ID,
+				"LAVA_ID"=>$reserva->LAVA_ID,
 				"LAVA_DESCRIPCION"=>$reserva->LAVA_DESCRIPCION,
 				"ESRE_NOMBRE" => $reserva->ESRE_NOMBRE,
 				"RESE_ID" => $reserva->RESE_ID,
