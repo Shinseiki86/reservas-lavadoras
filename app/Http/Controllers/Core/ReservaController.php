@@ -40,44 +40,40 @@ class ReservaController extends Controller
 	 */
 	public function cargaEventos()
 	{
-		//$sala = $request->input('sala');
-		
 		$data = []; //declaramos un array principal que va contener los datos
-
-		//$reservas = \reservas\Sala::findOrFail($sala)->reservas;
+		
+		//Se obtienen los registros de la base de datos
 		$reservas = Reserva::join('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'RESERVAS.LAVA_ID')
-						->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
-						//->where('RESERVAS.LAVA_ID', $LAVA_ID)
-						->select([
-					        "RESE_ID",
-					        "RESE_TITULO",
-					        "RESE_FECHAINI",
-					        "ESRE_COLOR",
-					        "RESERVAS.LAVA_ID",
-					        "LAVA_DESCRIPCION",
-					        "ESRE_NOMBRE",
-					        "RESE_CREADOPOR",
-						])
-						->get();
-
-		foreach ($reservas as $key => $reserva) {
+				->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
+				//->where('RESERVAS.LAVA_ID', $LAVA_ID)
+				->select([
+					'RESE_ID',
+					'RESE_TITULO',
+					'RESE_FECHAINI',
+					'ESRE_COLOR',
+					'RESERVAS.LAVA_ID',
+					'LAVA_DESCRIPCION',
+					'ESRE_NOMBRE',
+					'RESE_CREADOPOR',
+				])
+				->get();
+		//Con los datos obtenidos, se construye el JSON que será recibido por la vista en el Calendar.
+		foreach ($reservas as $key => $res) {
 			$data[] = [
-				"title"=>str_replace('LAVADORA ', 'L', $reserva->RESE_TITULO.' ('.$reserva->RESE_CREADOPOR.')'), //obligatoriamente "title", "start" y "url" son campos requeridos
-				"start"=>$reserva->RESE_FECHAINI, //por el plugin asi que asignamos a cada uno el valor correspondiente
-				"end"=>Carbon::parse($reserva->RESE_FECHAINI)->addHour()->toDateTimeString(),
-				//"allDay"=>$reserva->ALLDAY,
-				"backgroundColor"=>$reserva->ESRE_COLOR,
-				//"borderColor"=>$borde[$i],
-				"RESE_ID"=>$reserva->RESE_ID,
-				"LAVA_ID"=>$reserva->LAVA_ID,
-				"LAVA_DESCRIPCION"=>$reserva->LAVA_DESCRIPCION,
-				"ESRE_NOMBRE" => $reserva->ESRE_NOMBRE,
-				"RESE_ID" => $reserva->RESE_ID,
-				"RESE_CREADOPOR" => $reserva->RESE_CREADOPOR,
+				'title'=>str_replace('LAVADORA ', 'L', $res->RESE_TITULO.' ('.$res->RESE_CREADOPOR.')'), 
+				'start'=>$res->RESE_FECHAINI,
+				'end'=>Carbon::parse($res->RESE_FECHAINI)->addHour()->toDateTimeString(),
+				'backgroundColor'=>$res->ESRE_COLOR,
+				'RESE_ID'=>$res->RESE_ID,
+				'LAVA_ID'=>$res->LAVA_ID,
+				'LAVA_DESCRIPCION'=>$res->LAVA_DESCRIPCION,
+				'ESRE_NOMBRE' => $res->ESRE_NOMBRE,
+				'RESE_ID' => $res->RESE_ID,
+				'RESE_CREADOPOR' => $res->RESE_CREADOPOR,
 			];
 		}
 
-	   return json_encode($data);
+		return json_encode($data);
 	}
 
 	/**
@@ -164,7 +160,7 @@ class ReservaController extends Controller
 				$color = Reserva::COLOR_PENDIENTE;*/
 
 			//Crear reserva:
-			$reserva = Reserva::create(
+			$res = Reserva::create(
 				array_only($rawReserva, [
 					'RESE_TITULO',
 					'RESE_FECHAINI',
@@ -176,7 +172,7 @@ class ReservaController extends Controller
 				]
 			);
 			//Se adiciona el ID al arreglo de reservas
-			array_push($arrRESE_ID, $reserva->RESE_ID);
+			array_push($arrRESE_ID, $res->RESE_ID);
 		}
 
 		//Si se crearon reservas...

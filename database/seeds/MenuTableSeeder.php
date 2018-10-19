@@ -137,7 +137,7 @@ class MenuTableSeeder extends Seeder
         $parent = Menu::create([
             'MENU_LABEL' => 'Lavadoras',
             'MENU_URL' => 'core/lavadoras',
-            'MENU_ICON' => 'fas fa-id-badge',
+            'MENU_ICON' => 'fas fa-fill-drip',
             'MENU_ORDER' => $orderMenuTop++,
             'MENU_POSITION' => 'TOP',
             'PERM_ID' => $this->getPermission('lavadora-index'),
@@ -156,7 +156,7 @@ class MenuTableSeeder extends Seeder
         $orderItem = 0;
         $parent = Menu::create([
             'MENU_LABEL' => 'Reservas',
-            'MENU_ICON' => 'fas fa-calendar',
+            'MENU_ICON' => 'fas fa-ticket-alt',
             'MENU_URL' => 'core/reservas',
             'MENU_ORDER' => $orderMenuTop++,
             'MENU_POSITION' => 'TOP',

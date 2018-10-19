@@ -1,4 +1,4 @@
-{{ Form::button('<i class="fas fa-file-excel-o" aria-hidden="true"></i>',[
+{{ Form::button('<i class="fas fa-file-excel" aria-hidden="true"></i>',[
 		'class'=>'btn btn-primary',
 		'data-toggle'=>'modal',
 		'data-target'=>'#pregModalImport',

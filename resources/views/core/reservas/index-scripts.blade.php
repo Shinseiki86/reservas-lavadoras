@@ -50,79 +50,33 @@
 
 
 	function reservaHastaFecha() {
-
-		/***** COPIADO DESDE  reservaSinRepeticion ******/
-
-		//var todoeldia = false;
+		//Obteniendo valores del formulario
 		var lavadora = $('#LAVA_ID').val();
 		var titulo = 'L'+lavadora;
-
-		//Obteniendo valores del formulario
 		var fechaini = fchInicio.data("DateTimePicker").date();
-		var fechainicio = moment(fechaini, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
 		var nhoras = $('#RESE_HORAS').val();
 
-		//se le adiciona el numero de horas
-		var fechafin = moment(fechaini).add(1, 'hours');
-		var fechafinal = moment(fechafin,'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
+		//Se valida que no existan reservas para la fecha y lavadora seleccionada.
+		var puedeHacerReservas = validarFechaReservada(fechaini, nhoras, lavadora);
 
+		//Se adiciona la fecha al arreglo de reservas
+		var arrReservas = [{
+			'RESE_TITULO': titulo,
+			'RESE_FECHAINI': fechaini.format('YYYY-MM-DD HH:mm'),
+			'RESE_HORAS': nhoras, 
+			'LAVA_ID': lavadora,
+		}];
 
-		//var facultad = $("#cboxFacultades").val();
-
-
-
-		/***** FIN  COPIADO DESDE  reservaSinRepeticion ******/
-
-
-		//variable para almacenar el valor de la fecha de inicio formateada a YYYY-MM-DD de la
-		//reserva que se pretende realizar
-		var fini = fchInicio.data("DateTimePicker").date();
-		fini = moment(fini, 'YYYY-MM-DD HH:mm').format('YYYY-MM-DD');
-
-
-
-		var arrReservas = [];
-		var cont = 0;
-
-		//trae todas las reservas del fullcalendar 
-		var reservasTodas = $('#calendar').fullCalendar('clientEvents');
-		//console.log(JSON.stringify(reservasTodas));
-
-		var puedeHacerReservas = true;
-		console.log('fini = '+fini);
-
-
-			fini = moment(fini,'YYYY-MM-DD HH:mm').format('YYYY-MM-DD');
-
-				//Se adiciona la fecha al arreglo de reservas
-				arrReservas.push({
-					'RESE_TITULO': titulo,
-					'RESE_FECHAINI': fechainicio,
-					'RESE_HORAS': nhoras, 
-					//'RESE_TODOELDIA': todoeldia,
-					'LAVA_ID': lavadora,
-				});
-
-
-		console.log('arrReservas='+arrReservas);
 		if(puedeHacerReservas && arrReservas.length>0){
 			$.ajax({
 				url: 'reservas/guardarReservas',
-				data: {
-					reservas : arrReservas
-				},
-				//dataType: 'json',
-				type: "GET",
-				headers: {
-					"X-CSRF-TOKEN": crsfToken
-				},
+				data: { reservas : arrReservas },
+				type: 'GET',
+				headers: { 'X-CSRF-TOKEN': crsfToken },
 				success: function(events) {
 					$('#calendar').fullCalendar('refetchEvents');
 					toastr['success']('¡Su reserva se ha realizado satisfactoriamente!', 'OK');
-
 					$('#modalcrearres').modal('toggle');
-
-					console.log("Events guardarReservas"+JSON.stringify(events));
 				},
 				error: function(json){
 					console.log("Error al crear la reserva");
@@ -139,6 +93,16 @@
 
 /***** HELPERS - Funciones de apoyo *****/
 	
+	function validarFechaReservada(fechaini, nhoras, lavadora){
+		//trae todas las reservas del fullcalendar 
+		var reservasTodas = $('#calendar').fullCalendar('clientEvents');
+		//se le adiciona el numero de horas
+		var fechafin = moment(fechaini).add(1, 'hours');
+		var fechafinal = moment(fechafin,'YYYY-MM-DD HH:mm').format('YYYY-MM-DD HH:mm');
+		return true;
+	}
+
+
 	//Valida que una fecha de reserva nueva no se "traslape" con una reserva existente
 	// Para mas información, visite el archivo reservas/testvalidacion.blade.php
 	function validarReservaLibre(fIniExis, fFinExis, fIniNew, fFinNew){
@@ -225,6 +189,8 @@
 	-----------------------------------------------------------------*/
 	//Date for the calendar events (dummy data)
 	//while(reload==false){
+
+
 	$('#calendar').fullCalendar({
 		//theme: true,
 		displayEventTime: false,
@@ -285,32 +251,28 @@
 			info.append("<p><b>Creado por:</b> <span class='RESE_CREADOPOR'>" +calEvent.RESE_CREADOPOR+ "</span></p>");
 
 
-				var RESE_CREADOPOR = modal.find('.RESE_CREADOPOR').text();
-				var userCurrent = '{{ Auth::user()->username }}';
-				var rolCurrent = 'admin';
-				{{-- \Entrust:: --}}
+			var RESE_CREADOPOR = modal.find('.RESE_CREADOPOR').text();
+			var userCurrent = '{{ Auth::user()->username }}';
+			var rolCurrent = 'admin';
+			{{-- \Entrust:: --}}
 
-				var frmDelete = modal.find('#frmDelete');
-				if(userCurrent == RESE_CREADOPOR || rolCurrent == 'admin'){
-					frmDelete
-						.attr('action', 'reservas/'+calEvent.LAVA_ID)
-						.removeClass('hide');
-				}else{
-					frmDelete
-						.attr('action', 'reservas/'+calEvent.LAVA_ID)
-						.removeClass('hide');
-
-				}
-
+			var frmDelete = modal.find('#frmDelete');
+			if(userCurrent == RESE_CREADOPOR || rolCurrent == 'admin'){
+				frmDelete
+					.attr('action', 'reservas/'+calEvent.LAVA_ID)
+					.removeClass('hide');
+			}else{
+				frmDelete
+					.attr('action', 'reservas/'+calEvent.LAVA_ID)
+					.removeClass('hide');
+			}
 
 			modal.modal('show');
-			// change the border color just for fun
-			$(this).css('border-color', 'red');
 
-			//console.log(calEvent);
+			$(this).css('border-color', 'red');
 		},
 		editable: false,
-		droppable: false, // this allows things to be dropped onto the calendar !!!
+		droppable: true, // this allows things to be dropped onto the calendar !!!
 		drop: function (date, allDay) { // this function is called when something is dropped
 			// retrieve the dropped element's stored Event Object
 			var originalEventObject = $(this).data('eventObject');
