@@ -108,17 +108,11 @@ class AuthController extends Controller
 		//Se crea un array con los Role disponibles
 		$arrRoles = model_to_array(Role::class, 'display_name');
 
-		//Se crea un array con los Empleadores disponibles
-		$arrEmpleadores = model_to_array(Empleador::class, 'LAVA_NOMBRECOMERCIAL');
-
-		//Se crea un array con las Gerencias disponibles
-		$arrGerencias = model_to_array(Gerencia::class, 'GERE_DESCRIPCION');
-
-		//Se crea un array con las Temporales disponibles
-		$arrTemporales = model_to_array(Temporal::class, 'TEMP_NOMBRECOMERCIAL');
+		//Se crea un array con las lavadoras disponibles
+		$arrLavadoras = model_to_array(Lavadora::class, 'LAVA_DESCRIPCION');
 
 		// Muestra el formulario de creación y los array para los 'select'
-		return view('auth.register', compact('arrRoles','arrEmpleadores','arrGerencias','arrTemporales'));
+		return view('auth.register', compact('arrRoles','arrLavadoras'));
 	}
 
 	/**
@@ -130,7 +124,7 @@ class AuthController extends Controller
 	public function register(Request $request)
 	{
 		
-		parent::storeModel(['roles'=>'roles_ids','empleadores'=>'LAVA_ids','gerencias'=>'GERE_ids','temporales'=>'TEMP_ids']);
+		parent::storeModel(['roles'=>'roles_ids','lavadoras'=>'LAVA_ids']);
 	}
 
 	/**
@@ -203,20 +197,13 @@ class AuthController extends Controller
 		$arrRoles = model_to_array(Role::class, 'display_name');
 		$roles_ids = $usuario->roles->pluck('id')->toJson();
 
-		//Se crea un array con los Empleadores disponibles
-		$arrEmpleadores = model_to_array(Empleador::class, 'LAVA_NOMBRECOMERCIAL');
-		$LAVA_ids = $usuario->empleadores->pluck('LAVA_ID')->toJson();
+		//Se crea un array con las lavadoras disponibles
+		$arrLavadoras = model_to_array(Lavadora::class, 'LAVA_DESCRIPCION');
+		$LAVA_ids = $usuario->lavadoras->pluck('LAVA_ID')->toJson();
 
-		//Se crea un array con los Empleadores disponibles
-		$arrGerencias = model_to_array(Gerencia::class, 'GERE_DESCRIPCION');
-		$GERE_ids = $usuario->gerencias->pluck('GERE_ID')->toJson();
-
-		//Se crea un array con las Temporales disponibles
-		$arrTemporales = model_to_array(Temporal::class, 'TEMP_NOMBRECOMERCIAL');
-		$TEMP_ids = $usuario->temporales->pluck('TEMP_ID')->toJson();
 
 		// Muestra el formulario de edición y pasa el registro a editar
-		return view('auth/edit', compact('usuario','arrRoles','roles_ids','arrEmpleadores','arrGerencias','arrTemporales','LAVA_ids','GERE_ids','TEMP_ids'));
+		return view('auth/edit', compact('usuario','arrRoles','roles_ids','arrLavadoras','LAVA_ids'));
 	}
 
 	/**
@@ -250,16 +237,9 @@ class AuthController extends Controller
 			$usuario->roles()->sync($roles_ids, true);
 
 			//Relación con empleadores
-			$empl_ids = Input::has('LAVA_ids') ? Input::get('LAVA_ids') : [];
-			$usuario->empleadores()->sync($empl_ids, true);
+			$LAVA_ids = Input::has('LAVA_ids') ? Input::get('LAVA_ids') : [];
+			$usuario->lavadoras()->sync($LAVA_ids, true);
 
-			//Relación con gerencias
-			$gere_ids = Input::has('GERE_ids') ? Input::get('GERE_ids') : [];
-			$usuario->gerencias()->sync($gere_ids, true);
-
-			//Relación con temporales
-			$temp_ids = Input::has('TEMP_ids') ? Input::get('TEMP_ids') : [];
-			$usuario->temporales()->sync($temp_ids, true);
 
 			// redirecciona al index de controlador
 			flash_alert( 'Usuario '.$usuario->username.' modificado exitosamente!', 'success' );
@@ -342,7 +322,8 @@ class AuthController extends Controller
 		$pass     = Input::get('pass');
 
 		$user = User::where('username',$username)
-				->leftJoin()
+				//->leftJoin('USUARIOS_LAVADORAS', 'USUARIOS_LAVADORAS.USER_ID', '=', 'users.id')
+				//->leftJoin('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'USUARIOS_LAVADORAS.LAVA_ID')
 				->select([
 					'id',
 					'name',
@@ -354,11 +335,13 @@ class AuthController extends Controller
 		if( isset($user, $pass) and \Hash::check($pass, $user->password, []) ){
 			return response()->json([
 				'user' => $user->toJson(),
+				'lavadoras' => $user->lavadoras->toJson(),
 				'status' => 'OK',
 			]);
 		} else {
 			return response()->json([
 				'user' => 'Usuario o contraseña no válidos',
+				//'lavadoras' => '',
 				'status' => 'ERR',
 			]);
 		}

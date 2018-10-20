@@ -10,10 +10,8 @@
 
 @include('widgets.forms.input', ['type'=>'select', 'name'=>'roles_ids', 'label'=>'Roles', 'data'=>$arrRoles, 'multiple'=>true,])
 
-@include('widgets.forms.input', ['type'=>'select', 'name'=>'EMPL_ids', 'label'=>'Empleadores', 'data'=>$arrEmpleadores, 'multiple'=>true,])
+@include('widgets.forms.input', ['type'=>'select', 'name'=>'LAVA_ids', 'label'=>'Lavadoras', 'data'=>$arrLavadoras, 'multiple'=>true,])
 
-@include('widgets.forms.input', ['type'=>'select', 'name'=>'GERE_ids', 'label'=>'Gerencias', 'data'=>$arrGerencias, 'multiple'=>true,])
 
-@include('widgets.forms.input', ['type'=>'select', 'name'=>'TEMP_ids', 'label'=>'Temporales', 'data'=>$arrTemporales, 'multiple'=>true,])
 
 

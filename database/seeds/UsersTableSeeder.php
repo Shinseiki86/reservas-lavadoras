@@ -128,17 +128,28 @@ use LAVA\Models\Permission;
                 $owner->attachRole($this->rolOwner);
                 $admin->lavadoras()->sync([1,3]); 
 
-                //Editores
+                //Clientes
                 $user1 = User::create( [
                     'name' => 'Usuario 1',
                     'cedula' => 444444444,
-                    'username' => 'usuario',
-                    'email' => 'usuario@misena.edu.co',
+                    'username' => 'usuario1',
+                    'email' => 'usuario1@misena.edu.co',
                     'password'  => \Hash::make($pass),
                     'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
                 $user1->attachRole($this->rolUser);
                 $user1->lavadoras()->sync([1,3]); 
+                
+                $user2 = User::create( [
+                    'name' => 'Usuario 2',
+                    'cedula' => 55555555,
+                    'username' => 'usuario2',
+                    'email' => 'usuario2@misena.edu.co',
+                    'password'  => \Hash::make($pass),
+                    'USER_CREADOPOR'  => 'PRUEBAS'
+                ]);
+                $user2->attachRole($this->rolUser);
+                $user2->lavadoras()->sync([2]); 
 
                 //5 usuarios faker
                 //$users = factory(LAVA\User::class)->times(5)->create();
