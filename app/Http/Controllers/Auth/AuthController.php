@@ -330,4 +330,37 @@ class AuthController extends Controller
         return redirect(property_exists($this, 'redirectAfterLogout') ? $this->redirectAfterLogout : '/');
     }
 
+    /**
+     * Log the user out of the application.
+     *
+     * @return json
+     */
+    public function loginWebservice(Request $request)
+    {
+		$username = Input::get('username');
+		//$pass     = Input::get('pass');
+
+		$user = User::where('username',$username)
+				->select([
+					'name',
+					'username',
+					'email',
+					'password',
+				])
+				->first();
+
+		if(isset($user)){
+			return response()->json([
+				'user' => $user->toJson(),
+				'status' => 'OK',
+			]);
+		} else {
+			return response()->json([
+				'user' => 'Usuario no existe',
+				'status' => 'ERR',
+			]);
+		}
+		
+    }
+
 }

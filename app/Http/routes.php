@@ -12,6 +12,8 @@
 
 //Autenticación
 Route::auth();
+Route::get('loginWebservice', 'Auth\AuthController@loginWebservice');
+
 Route::group(['prefix'=>'auth', 'namespace'=>'Auth'], function() {
 	Route::resource('usuarios', 'AuthController');
 	Route::resource('roles', 'RoleController');

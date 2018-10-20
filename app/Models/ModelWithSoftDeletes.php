@@ -7,10 +7,8 @@ use LAVA\Traits\SoftDeletesTrait;
 use LAVA\Traits\RelationshipsTrait;
 use Illuminate\Database\Eloquent\Model;
 
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class ModelWithSoftDeletes extends Model implements AuditableContract
+class ModelWithSoftDeletes extends Model
 {
-    use SoftDeletesTrait, RelationshipsTrait, ModelRulesTrait, AuditableTrait;
+    use SoftDeletesTrait, RelationshipsTrait, ModelRulesTrait;
 }

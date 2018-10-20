@@ -7,12 +7,10 @@ use LAVA\Traits\ModelRulesTrait;
 //use LAVA\Traits\SoftDeletesTrait;
 use LAVA\Traits\RelationshipsTrait;
 
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class Role extends EntrustRole implements AuditableContract
+class Role extends EntrustRole
 {
-    use RelationshipsTrait, ModelRulesTrait, AuditableTrait;
+    use RelationshipsTrait, ModelRulesTrait;
     //use SoftDeletesTrait;
 	/**
 	 * The attributes that are mass assignable.

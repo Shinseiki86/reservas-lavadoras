@@ -3,16 +3,12 @@
 namespace LAVA\Models;
 
 use LAVA\Traits\RelationshipsTrait;
-
-use OwenIt\Auditing\Auditable as AuditableTrait;
-use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
-
 use Zizaco\Entrust\Traits\EntrustUserTrait;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements AuditableContract
+class User extends Authenticatable
 {
-	use EntrustUserTrait, RelationshipsTrait, AuditableTrait;
+	use EntrustUserTrait, RelationshipsTrait;
 
 	//Nombre de la tabla en la base de datos
 	protected $table = 'users';
@@ -132,7 +128,4 @@ class User extends Authenticatable implements AuditableContract
         });
     }
 
-    public static function resolveId() {
-    	return auth()->check() ? auth()->user()->getAuthIdentifier() : null;
-    }
 }

@@ -6,7 +6,6 @@ use LAVA\Traits\ModelRulesTrait;
 //use LAVA\Traits\SoftDeletesTrait;
 use LAVA\Traits\RelationshipsTrait;
 use Zizaco\Entrust\EntrustPermission;
-use OwenIt\Auditing\Contracts\Auditable;
 
 class Permission extends EntrustPermission
 {
