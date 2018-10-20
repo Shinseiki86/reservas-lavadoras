@@ -55,6 +55,7 @@ class AuthController extends Controller
 			'login',
 			'getLogout',
 			'showLoginForm',
+			'loginWebservice',
 		];
 
 		//Lista de acciones que solo puede realizar los administradores
@@ -338,25 +339,26 @@ class AuthController extends Controller
     public function loginWebservice(Request $request)
     {
 		$username = Input::get('username');
-		//$pass     = Input::get('pass');
+		$pass     = Input::get('pass');
 
 		$user = User::where('username',$username)
+				->leftJoin()
 				->select([
+					'id',
 					'name',
 					'username',
 					'email',
 					'password',
-				])
-				->first();
+				])->first();
 
-		if(isset($user)){
+		if( isset($user, $pass) and \Hash::check($pass, $user->password, []) ){
 			return response()->json([
 				'user' => $user->toJson(),
 				'status' => 'OK',
 			]);
 		} else {
 			return response()->json([
-				'user' => 'Usuario no existe',
+				'user' => 'Usuario o contraseña no válidos',
 				'status' => 'ERR',
 			]);
 		}
