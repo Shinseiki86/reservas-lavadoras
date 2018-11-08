@@ -17,7 +17,7 @@ class ReservaController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('auth');
+		$this->middleware('auth', [ 'except' => 'getReservas' ]);
 		//parent::__construct();
 	}
 	
@@ -164,7 +164,7 @@ class ReservaController extends Controller
 				array_only($rawReserva, [
 					'RESE_TITULO',
 					'RESE_FECHAINI',
-					'RESE_HORA',
+					'RESE_HORAS',
 					//'RESE_FECHAFIN',
 					'LAVA_ID',
 				]) + [
@@ -185,5 +185,36 @@ class ReservaController extends Controller
 
 		return $arrRESE_ID;
 	}
+
+
+
+	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function getReservas($username)
+	{
+		//$user = User::where('username', $username)->get();
+
+		//Se obtienen los registros de la base de datos
+		$reservas = Reserva::join('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'RESERVAS.LAVA_ID')
+				->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
+				->where('RESE_CREADOPOR', $username)
+				->select([
+					'RESE_ID',
+					'RESE_TITULO',
+					'RESE_FECHAINI',
+					'RESE_HORAS',
+					'ESRE_COLOR',
+					'RESERVAS.LAVA_ID',
+					'LAVA_DESCRIPCION',
+					'RESERVAS.ESRE_ID',
+					'ESRE_NOMBRE',
+				])->get();
+
+		return $reservas->toJson();
+	}
+
 	
 }
