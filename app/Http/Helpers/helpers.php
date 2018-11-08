@@ -12,7 +12,6 @@
 
 
 use Illuminate\Support\Arr;
-use LAVA\Prospecto;
 use Carbon\Carbon;
 
 
@@ -307,82 +306,6 @@ if (! function_exists('number_to_letter')) {
     function number_to_letter($num, $lang = 'es') {
         $numFormat = new \NumberFormatter($lang, \NumberFormatter::SPELLOUT);
         return $numFormat->format($num);
-    }
-}
-
-
-if (! function_exists('get_permisosempresas_user')) {
-    /**
-     * Devuelve los empleadores para los que tiene permiso el usuario
-     * @param int $id id del usuario
-     * @return un arreglo con el resultado 
-     */
-    function get_permisosempresas_user($id) {
-        $result = \Auth::user()->empleadores()->where('USER_ID', $id)->get()->pluck('LAVA_ID');
-        return $result;
-    }
-}
-
-if (! function_exists('get_permisostemporales_user')) {
-    /**
-     * Devuelve las temporales para los que tiene permiso el usuario
-     * @param int $id id del usuario
-     * @return un arreglo con el resultado 
-     */
-    function get_permisostemporales_user($id) {
-        $result = \Auth::user()->temporales()->where('USER_ID', $id)->get()->pluck('TEMP_ID');
-        return $result;
-    }
-}
-
-if (! function_exists('get_permisosgerencias_user')) {
-    /**
-     * Devuelve las gerencias para los que tiene permiso el usuario
-     * @param int $id id del usuario
-     * @return un arreglo con el resultado 
-     */
-    function get_permisosgerencias_user($id) {
-        $result = \Auth::user()->gerencias()->where('USER_ID', $id)->get()->pluck('GERE_ID');
-        return $result;
-    }
-}
-
-if (! function_exists('get_permisosgenerales')) {
-    /**
-     * Devuelve los permisos para visualizar datos dependiendo del Rol de empleado
-     * @param int $id id del usuario
-     * @param class $model modelo del cual extrae los datos
-     * @return un arreglo con el resultado 
-     */
-    function get_permisosgenerales($id, $query) {
-        
-        if(\Auth::user()->hasRole(['admin'])){
-            //si es un administrador (permiso sobre todas las empresas)
-            //$query = $query;
-        } elseif (\Auth::user()->hasRole(['gesthum'])){
-            //si es de gestión humana (permisos sobre toda el empleador)
-            $empleadores = get_permisosempresas_user(\Auth::user()->id);
-            //dump($empleadores);
-            return $query->whereIn('EMPLEADORES.LAVA_ID', $empleadores);
-        } else {
-            $empleadores = get_permisosempresas_user(\Auth::user()->id);
-            if(isset($empleadores))
-                $query = $query->whereIn('EMPLEADORES.LAVA_ID', $empleadores);
-
-            if(\Auth::user()->hasRole(['ejecutivo'])){
-                //si es un ejecutivo de cuenta (permisos sobre el empleador y la temporal)
-                $temporales = get_permisostemporales_user(\Auth::user()->id);
-                if(isset($temporales))
-                   $query = $query->whereIn('TEMPORALES.TEMP_ID', $temporales);
-            } else {
-                //si no es administrador ni es de gestión humana (permisos sobre empleador y gerencia)
-                $gerencias = get_permisosgerencias_user(\Auth::user()->id);
-                if(isset($gerencias))
-                    $query = $query->whereIn('GERENCIAS.GERE_ID', $gerencias);
-            }
-        }
-        
-        return $query;
     }
 }
 

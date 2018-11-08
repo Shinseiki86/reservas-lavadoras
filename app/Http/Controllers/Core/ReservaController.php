@@ -46,6 +46,7 @@ class ReservaController extends Controller
 		$reservas = Reserva::join('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'RESERVAS.LAVA_ID')
 				->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
 				//->where('RESERVAS.LAVA_ID', $LAVA_ID)
+				->whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA])
 				->select([
 					'RESE_ID',
 					'RESE_TITULO',

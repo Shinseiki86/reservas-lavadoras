@@ -14,6 +14,7 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         Commands\Inspire::class,
+        Commands\FinishReservas::class,
         Commands\DropTables::class,
     ];
 
@@ -27,5 +28,8 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+        $schedule->command('reservas:close')
+                ->everyMinute()
+                ->withoutOverlapping();
     }
 }
