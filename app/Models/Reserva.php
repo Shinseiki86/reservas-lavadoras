@@ -23,6 +23,8 @@ class Reserva extends ModelWithSoftDeletes
         "RESE_HORAS",
         "LAVA_ID",
         "ESRE_ID",
+        "RESE_ACEPTADA",
+        "RESE_ACTIVADA",
 	];
 
 

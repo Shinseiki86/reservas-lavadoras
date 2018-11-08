@@ -17,7 +17,7 @@ class ReservaController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('auth', [ 'except' => ['getReservas','delete'] ]);
+		$this->middleware('auth', [ 'except' => ['getReservas','delete', 'activar','confirmar' ] ]);
 		//parent::__construct();
 	}
 	
@@ -211,9 +211,11 @@ class ReservaController extends Controller
 					'LAVA_DESCRIPCION',
 					'RESERVAS.ESRE_ID',
 					'ESRE_NOMBRE',
+					'RESE_ACEPTADA',
+					'RESE_ACTIVADA',
 				])->get();
 
-		return $reservas->toJson();
+		return json_encode(['data'=>$reservas]);
 	}
 
 
@@ -228,9 +230,42 @@ class ReservaController extends Controller
 
 		if(isset($reserva)){
 			$reserva->delete();
-			return json_encode('Reserva eliminada');
+			return json_encode(['data'=>['Reserva eliminada']]);
 		} else {
-			return json_encode('Reserva no existe');
+			return json_encode(['data'=>['Reserva no existe']]);
+		}
+	}
+
+
+	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function confirmar($RESE_ID)
+	{
+		$reserva = Reserva::find($RESE_ID);
+
+		if(isset($reserva)){
+			$reserva->update(['RESE_ACEPTADA'=>true]);
+			return json_encode(['data'=>['Reserva aceptada']]);
+		} else {
+			return json_encode(['data'=>['Reserva no existe']]);
+		}
+	}	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function activar($RESE_ID)
+	{
+		$reserva = Reserva::find($RESE_ID);
+
+		if(isset($reserva)){
+			$reserva->update(['RESE_ACTIVADA'=>true]);
+			return json_encode(['data'=>['Reserva activada']]);
+		} else {
+			return json_encode(['data'=>['Reserva no existe']]);
 		}
 	}
 

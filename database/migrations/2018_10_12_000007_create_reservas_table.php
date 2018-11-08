@@ -40,6 +40,11 @@ class CreateReservasTable extends Migration
             $table->integer('LAVA_ID')->unsigned()
                 ->comment = 'Campo foráneo de la tabla LAVADORAS.';
 
+            $table->boolean('RESE_ACEPTADA')->default(false)
+                ->comment = '.';
+            $table->boolean('RESE_ACTIVADA')->default(false)
+                ->comment = '.';
+
 
             //Traza
             $table->string('RESE_CREADOPOR')

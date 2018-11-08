@@ -67,15 +67,8 @@ Route::group(['prefix'=>'core', 'namespace'=>'Core'], function() {
 
 	Route::get('reservas/getReservas/{username}', 'ReservaController@getReservas');
 	Route::get('reservas/delete/{RESE_ID}', 'ReservaController@delete');
-});
-
-Route::group(['prefix'=>'cnfg-geograficos', 'namespace'=>'CnfgGeograficos'], function() {
-	Route::resource('paises', 'PaisController', ['parameters'=>['pais'=>'PAIS_ID']]);
-	Route::get('getPaises', 'PaisController@getData');
-	Route::resource('departamentos', 'DepartamentoController', ['parameters'=>['departamento'=>'DEPA_ID']]);
-	Route::get('getDepartamentos', 'DepartamentoController@getData');
-	Route::resource('ciudades', 'CiudadController', ['parameters'=>['ciudad'=>'CIUD_ID']]);
-	Route::get('getCiudades', 'CiudadController@getData');
+	Route::get('reservas/confirmar/{RESE_ID}', 'ReservaController@confirmar');
+	Route::get('reservas/activar/{RESE_ID}', 'ReservaController@activar');
 });
 
 
