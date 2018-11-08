@@ -215,7 +215,19 @@ class ReservaController extends Controller
 					'RESE_ACTIVADA',
 				])->get();
 
-		return json_encode(['data'=>$reservas]);
+		if(isset($reserva)){
+			return json_encode([
+				'data'   =>$reservas,
+				'status' =>true,
+				'mensaje'=>'OK'
+			]);
+		} else {
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'El usuario no tiene reservas.'
+			]);
+		}
 	}
 
 
@@ -230,9 +242,17 @@ class ReservaController extends Controller
 
 		if(isset($reserva)){
 			$reserva->delete();
-			return json_encode(['data'=>['Reserva eliminada']]);
+			return json_encode([
+				'data'   =>$reserva,
+				'status' =>true,
+				'mensaje'=>'Reserva eliminada'
+			]);
 		} else {
-			return json_encode(['data'=>['Reserva no existe']]);
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'Reserva no existe'
+			]);
 		}
 	}
 
@@ -248,11 +268,22 @@ class ReservaController extends Controller
 
 		if(isset($reserva)){
 			$reserva->update(['RESE_ACEPTADA'=>true]);
-			return json_encode(['data'=>['Reserva aceptada']]);
+			return json_encode([
+				'data'   =>$reserva,
+				'status' =>true,
+				'mensaje'=>'Reserva aceptada'
+			]);
 		} else {
-			return json_encode(['data'=>['Reserva no existe']]);
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'Reserva no existe'
+			]);
 		}
-	}	/**
+	}
+
+
+	/**
 	 * Muestra una lista de los registros.
 	 *
 	 * @return Response
@@ -263,9 +294,17 @@ class ReservaController extends Controller
 
 		if(isset($reserva)){
 			$reserva->update(['RESE_ACTIVADA'=>true]);
-			return json_encode(['data'=>['Reserva activada']]);
+			return json_encode([
+				'data'   =>$reserva,
+				'status' =>true,
+				'mensaje'=>'Reserva activada'
+			]);
 		} else {
-			return json_encode(['data'=>['Reserva no existe']]);
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'Reserva no existe'
+			]);
 		}
 	}
 
