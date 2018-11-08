@@ -64,8 +64,9 @@ Route::group(['prefix'=>'core', 'namespace'=>'Core'], function() {
 	Route::get('reservas/cargaEventos','ReservaController@cargaEventos');
 	Route::post('reservas/guardaEventos', array('as' => 'guardaEventos','uses' => 'ReservaController@store'));
 	Route::get('reservas/guardarReservas', 'ReservaController@guardarReservas');
-	
+
 	Route::get('reservas/getReservas/{username}', 'ReservaController@getReservas');
+	Route::get('reservas/delete/{RESE_ID}', 'ReservaController@delete');
 });
 
 Route::group(['prefix'=>'cnfg-geograficos', 'namespace'=>'CnfgGeograficos'], function() {

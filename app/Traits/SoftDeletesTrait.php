@@ -24,7 +24,7 @@ trait SoftDeletesTrait
 
         $query->update([
            $this->getDeletedAtColumn() => $this->fromDateTime($time),
-           $deleted_by => auth()->user()->username
+           //$deleted_by => auth()->user()->username
         ]);
 
         //$deleted_by => (\Auth::id()) ?: null

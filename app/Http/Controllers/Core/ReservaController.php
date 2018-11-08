@@ -17,7 +17,7 @@ class ReservaController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('auth', [ 'except' => 'getReservas' ]);
+		$this->middleware('auth', [ 'except' => ['getReservas','delete'] ]);
 		//parent::__construct();
 	}
 	
@@ -214,6 +214,24 @@ class ReservaController extends Controller
 				])->get();
 
 		return $reservas->toJson();
+	}
+
+
+	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function delete($RESE_ID)
+	{
+		$reserva = Reserva::find($RESE_ID);
+
+		if(isset($reserva)){
+			$reserva->delete();
+			return json_encode('Reserva eliminada');
+		} else {
+			return json_encode('Reserva no existe');
+		}
 	}
 
 	
