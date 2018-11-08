@@ -195,12 +195,13 @@ class ReservaController extends Controller
 	 */
 	public function getReservas($username)
 	{
-		//$user = User::where('username', $username)->get();
+	
 
 		//Se obtienen los registros de la base de datos
 		$reservas = Reserva::join('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'RESERVAS.LAVA_ID')
 				->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
 				->where('RESE_CREADOPOR', $username)
+				->whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA])
 				->select([
 					'RESE_ID',
 					'RESE_TITULO',
@@ -215,7 +216,7 @@ class ReservaController extends Controller
 					'RESE_ACTIVADA',
 				])->get();
 
-		if(isset($reserva)){
+		if(isset($reservas)){
 			return json_encode([
 				'data'   =>$reservas,
 				'status' =>true,
@@ -267,7 +268,7 @@ class ReservaController extends Controller
 		$reserva = Reserva::find($RESE_ID);
 
 		if(isset($reserva)){
-			$reserva->update(['RESE_ACEPTADA'=>true]);
+			$reserva->update(['RESE_ACEPTADA'=>true, 'ESRE_ID'=>EstadoReserva::APROBADA]);
 			return json_encode([
 				'data'   =>$reserva,
 				'status' =>true,
