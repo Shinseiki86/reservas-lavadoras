@@ -324,10 +324,15 @@ class ReservaController extends Controller
 					//->whereBetween('RESE_FECHAINI', [$fechaactual->addSeconds(-5), $fechaactual->addSeconds(5)])
 					->get()->pluck('LAVA_ID')->unique()->sort()->values()->all();
 
-
+		$lavadoras = [
+			1 => (in_array(1, $reservas)?'HIGH':'LOW'),
+			2 => (in_array(2, $reservas)?'HIGH':'LOW'),
+			3 => (in_array(3, $reservas)>=0?'HIGH':'LOW'),
+		];
+		
 		if(isset($reservas)){
 			return json_encode([
-				'data'   =>$reservas,
+				'data'   =>$lavadoras,
 				'status' =>true,
 				'mensaje'=>'OK'
 			]);
