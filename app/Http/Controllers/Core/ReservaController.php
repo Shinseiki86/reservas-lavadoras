@@ -325,9 +325,9 @@ class ReservaController extends Controller
 					->get()->pluck('LAVA_ID')->unique()->sort()->values()->all();
 
 		$lavadoras = [
-			1 => (in_array(1, $reservas)?'HIGH':'LOW'),
-			2 => (in_array(2, $reservas)?'HIGH':'LOW'),
-			3 => (in_array(3, $reservas)>=0?'HIGH':'LOW'),
+			1 => in_array(1, $reservas)?1:0,
+			2 => in_array(2, $reservas)?1:0,
+			3 => in_array(3, $reservas)?1:0,
 		];
 		
 		if(isset($reservas)){
