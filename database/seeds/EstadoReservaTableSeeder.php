@@ -30,5 +30,9 @@ class EstadoReservaTableSeeder extends Seeder
             'ESRE_NOMBRE' => 'FINALIZADO',
             'ESRE_COLOR' => 'rgb(204, 204, 204)',   //Gray 80%
         ]);
+        EstadoReserva::create([
+            'ESRE_NOMBRE' => 'ACTIVADO',
+            'ESRE_COLOR' => 'blue',   //Red
+        ]);
     }
 }

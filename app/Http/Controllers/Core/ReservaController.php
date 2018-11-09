@@ -273,7 +273,7 @@ class ReservaController extends Controller
 			return json_encode([
 				'data'   =>$reserva,
 				'status' =>true,
-				'mensaje'=>'Reserva aceptada'
+				'mensaje'=>'Reserva confirmada'
 			]);
 		} else {
 			return json_encode([
@@ -295,7 +295,7 @@ class ReservaController extends Controller
 		$reserva = Reserva::find($RESE_ID);
 
 		if(isset($reserva)){
-			$reserva->update(['RESE_ACTIVADA'=>true]);
+			$reserva->update(['RESE_ACTIVADA'=>true, 'ESRE_ID'=>EstadoReserva::ACTIVADA]);
 			return json_encode([
 				'data'   =>$reserva,
 				'status' =>true,
@@ -306,6 +306,36 @@ class ReservaController extends Controller
 				'data'   =>[],
 				'status' =>false,
 				'mensaje'=>'Reserva no existe'
+			]);
+		}
+	}
+
+	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function getLavadorasActivas()
+	{
+		$fechaactual = Carbon::now();
+		$reservas = Reserva::where('RESE_ACTIVADA', true)
+					->where('ESRE_ID', EstadoReserva::ACTIVADA)
+					->select('LAVA_ID')
+					//->whereBetween('RESE_FECHAINI', [$fechaactual->addSeconds(-5), $fechaactual->addSeconds(5)])
+					->get()->pluck('LAVA_ID')->unique()->sort()->values()->all();
+
+
+		if(isset($reservas)){
+			return json_encode([
+				'data'   =>$reservas,
+				'status' =>true,
+				'mensaje'=>'OK'
+			]);
+		} else {
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'No hay reservas activas'
 			]);
 		}
 	}

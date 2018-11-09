@@ -2,6 +2,7 @@
 
 namespace LAVA\Models;
 
+use Carbon\Carbon;
 use LAVA\Models\ModelWithSoftDeletes;
 
 class Reserva extends ModelWithSoftDeletes
@@ -16,6 +17,9 @@ class Reserva extends ModelWithSoftDeletes
 	const UPDATED_AT = 'RESE_FECHAMODIFICADO';
 	const DELETED_AT = 'RESE_FECHAELIMINADO';
 	protected $dates = ['RESE_FECHACREADO', 'RESE_FECHAMODIFICADO', 'RESE_FECHAELIMINADO'];
+
+
+	protected $appends = ['fecha_alerta'];
 
 	protected $fillable = [
         "RESE_TITULO",
@@ -51,6 +55,18 @@ class Reserva extends ModelWithSoftDeletes
 		$foreingKey = 'RESE_ID';
 		$otherKey   = 'USER_ID';
 		return $this->belongsToMany(User::class, 'USUARIOS_EMPLEADORES', $foreingKey,  $otherKey);
+	}
+
+	/**
+	 * Retorna el total de respuestas que han realizado a la encuesta.
+	 *
+	 * @param  void
+	 * @return integer
+	 */
+	public function getFechaAlertaAttribute()
+	{
+		return Carbon::parse($this->RESE_FECHAINI)->subMinutes(15);
+
 	}
 
 }

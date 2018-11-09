@@ -27,6 +27,7 @@ class EstadoReserva extends ModelWithSoftDeletes
 	const APROBADA  = 2;
 	const ANULADA   = 3;
 	const FINALIZADA= 4;
+	const ACTIVADA  = 5;
 
 	public static function rules($id = 0){
 		return [

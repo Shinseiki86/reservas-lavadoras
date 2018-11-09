@@ -69,6 +69,8 @@ Route::group(['prefix'=>'core', 'namespace'=>'Core'], function() {
 	Route::get('reservas/delete/{RESE_ID}', 'ReservaController@delete');
 	Route::get('reservas/confirmar/{RESE_ID}', 'ReservaController@confirmar');
 	Route::get('reservas/activar/{RESE_ID}', 'ReservaController@activar');
+	
+	Route::get('reservas/getLavadorasActivas', 'ReservaController@getLavadorasActivas');
 });
 
 
