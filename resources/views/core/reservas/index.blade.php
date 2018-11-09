@@ -37,6 +37,7 @@
 							<td class="estados hide"></td>
 							<td class="estados aprobada">APROBADA</td>
 							<td class="estados pendiente">PENDIENTE POR APROBAR</td>
+							<td class="estados activada">ACTIVADA</td>
 							{{-- <td class="estados anulada">ANULADA</td> --}}
 						</tr>
 					</tbody>

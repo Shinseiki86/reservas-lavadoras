@@ -65,7 +65,7 @@ class Reserva extends ModelWithSoftDeletes
 	 */
 	public function getFechaAlertaAttribute()
 	{
-		return Carbon::parse($this->RESE_FECHAINI)->subMinutes(15);
+		return Carbon::parse($this->RESE_FECHAINI)->subMinutes(15)->format('Y-m-d H:i:s');
 
 	}
 

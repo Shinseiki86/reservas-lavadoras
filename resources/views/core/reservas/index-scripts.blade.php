@@ -28,11 +28,11 @@
 	var fchInicio = $('#RESE_FECHAINICIO').parent().datetimepicker();
 	fchInicio.data("DateTimePicker")
 		.options({
-			stepping: 60,
+			//stepping: 60,
 			//sideBySide: true, // Muestra la hora yla fecha juntas
 			useCurrent: false,  //Important! See issue #1075. Requerido para minDate
-			minDate: moment(), //-1 Permite seleccionar el dia actual
-			defaultDate: moment().add(30,'minutes'), //-1 Permite seleccionar el dia actual
+			//minDate: moment(), //-1 Permite seleccionar el dia actual
+			//defaultDate: moment().add(30,'minutes'), //-1 Permite seleccionar el dia actual
 			daysOfWeekDisabled: [0],//Deshabilita el día domingo
 			format: 'YYYY-MM-DD HH:mm'
 		})

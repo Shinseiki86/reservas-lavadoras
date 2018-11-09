@@ -32,7 +32,7 @@ class EstadoReservaTableSeeder extends Seeder
         ]);
         EstadoReserva::create([
             'ESRE_NOMBRE' => 'ACTIVADO',
-            'ESRE_COLOR' => 'blue',   //Red
+            'ESRE_COLOR' => 'cyan',   //cyan
         ]);
     }
 }
