@@ -53,5 +53,8 @@
 		.estados+.anulada {
 			background-color: rgb(204, 204, 204);
 		}
+		.estados+.activada {
+			background-color: cyan;
+		}
 	</style>
 @endpush

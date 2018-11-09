@@ -44,19 +44,27 @@ class FinishReservas extends Command
     {
 
         $hayPend = false;
-        $reservas = Reserva::whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA])
+        $reservas = Reserva::whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA, EstadoReserva::ACTIVADA])
                                 ->get();
 
         //$bar = $this->output->createProgressBar(count($encuestas));
 
         foreach ($reservas as $key => $reserva) {
             $RESE_FECHAINI = Carbon::parse($reserva->RESE_FECHAINI)->second(0);
-            $RESE_FECHAFIN = $RESE_FECHAINI->addHours($reserva->RESE_HORAS);
+            $RESE_FECHAFIN = $RESE_FECHAINI->copy()->addHours($reserva->RESE_HORAS);
             $ahora = Carbon::now()->second(0);
 
-
+  // $this->info('     '.$reserva->RESE_ID .'     ');
+  // $this->info('     '.$reserva->ESRE_ID  .'     ');
+  // $this->info('     '.$RESE_FECHAINI  .'     ');
+  // $this->info( '     '.$ahora .'     ');
+  // $this->info( '*************');
+            
             //Si la fecha de vigencia de la reserva es menor a la fecha actual...
-            if($RESE_FECHAFIN < $ahora ){
+            if( ($RESE_FECHAFIN <= $ahora ) or
+                ($RESE_FECHAINI <= $ahora and $reserva->ESRE_ID==EstadoReserva::PENDIENTE)
+              ){
+
                 $reserva->update(['ESRE_ID' => EstadoReserva::FINALIZADA]);
 
                 //Enviar correo al creador de la reserva
