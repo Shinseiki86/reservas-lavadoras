@@ -196,13 +196,11 @@ class ReservaController extends Controller
 	 */
 	public function getReservas($username)
 	{
-	
-
 		//Se obtienen los registros de la base de datos
 		$reservas = Reserva::join('LAVADORAS', 'LAVADORAS.LAVA_ID', '=', 'RESERVAS.LAVA_ID')
 				->join('ESTADOSRESERVA', 'ESTADOSRESERVA.ESRE_ID', '=', 'RESERVAS.ESRE_ID')
 				->where('RESE_CREADOPOR', $username)
-				->whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA])
+				->whereIn('RESERVAS.ESRE_ID', [EstadoReserva::PENDIENTE, EstadoReserva::APROBADA, EstadoReserva::ACTIVADA])
 				->select([
 					'RESE_ID',
 					'RESE_TITULO',
