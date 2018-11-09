@@ -54,12 +54,6 @@ class FinishReservas extends Command
             $RESE_FECHAFIN = $RESE_FECHAINI->copy()->addHours($reserva->RESE_HORAS);
             $ahora = Carbon::now()->second(0);
 
-  // $this->info('     '.$reserva->RESE_ID .'     ');
-  // $this->info('     '.$reserva->ESRE_ID  .'     ');
-  // $this->info('     '.$RESE_FECHAINI  .'     ');
-  // $this->info( '     '.$ahora .'     ');
-  // $this->info( '*************');
-            
             //Si la fecha de vigencia de la reserva es menor a la fecha actual...
             if( ($RESE_FECHAFIN <= $ahora ) or
                 ($RESE_FECHAINI <= $ahora and $reserva->ESRE_ID==EstadoReserva::PENDIENTE)

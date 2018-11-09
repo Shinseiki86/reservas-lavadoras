@@ -17,7 +17,7 @@ class ReservaController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('auth', [ 'except' => ['getReservas','delete', 'activar','confirmar' ] ]);
+		$this->middleware('auth', [ 'except' => ['getReservas','delete', 'activar','confirmar','getLavadorasActivas', ] ]);
 		//parent::__construct();
 	}
 	
