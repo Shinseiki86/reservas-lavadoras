@@ -162,11 +162,6 @@ class ReservaController extends Controller
 
 		foreach ($rawReservasInput as $rawReserva) {
 
-			//El color no se guarda en la BD sino que se calcula dependiento el estado de la reserva
-			/*if($ROLE_ID == \reservas\Rol::ADMIN)
-				$color = Reserva::COLOR_APROBADO;
-			else
-				$color = Reserva::COLOR_PENDIENTE;*/
 
 			//Crear reserva:
 			$res = Reserva::create(

@@ -135,6 +135,7 @@ use LAVA\Models\Permission;
                     'username' => 'usuario1',
                     'email' => 'usuario1@misena.edu.co',
                     'password'  => \Hash::make($pass),
+                    'saldo'  => 10000,
                     'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
                 $user1->attachRole($this->rolUser);
@@ -146,6 +147,7 @@ use LAVA\Models\Permission;
                     'username' => 'usuario2',
                     'email' => 'usuario2@misena.edu.co',
                     'password'  => \Hash::make($pass),
+                    'saldo'  => 20000,
                     'USER_CREADOPOR'  => 'PRUEBAS'
                 ]);
                 $user2->attachRole($this->rolUser);

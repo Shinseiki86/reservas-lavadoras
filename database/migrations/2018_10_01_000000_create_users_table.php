@@ -26,6 +26,10 @@ class CreateUsersTable extends Migration
 				->comment('Cuenta del usuario, con la cual realizará la autenticación. Valor único en la tabla');
 			$table->string('cedula')->unique()
                 ->comment('cedula del usuario');
+
+    		$table->double('saldo')->default(0)
+                ->comment('saldo');
+	
 			$table->string('email')->unique()
 				->comment('Correo electrónico del usuario. Necesario para enviar enlace de restauración de contraseña.');
 			$table->string('password')

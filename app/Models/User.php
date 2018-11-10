@@ -30,6 +30,7 @@ class User extends Authenticatable
 		'username',
 		'cedula',
 		'email',
+		'saldo',
 		'password',
 		'USER_CREADOPOR',
 		'USER_MODIFICADOPOR',
@@ -58,7 +59,7 @@ class User extends Authenticatable
 	public static function rules($id = 0){
 		return [
 			'name'      => 'required|max:255',
-			'username'  => ['required','max:15',static::unique($id,'username')],
+			'saldo' => 'required|numeric',
 			'cedula'    => ['required','max:15',static::unique($id,'cedula')],
 			'email'     => ['required','email','max:320',static::unique($id,'email')],
 			'roles_ids' => 'required|array',

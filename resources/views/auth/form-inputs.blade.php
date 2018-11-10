@@ -6,6 +6,8 @@
 
 @include('widgets.forms.input', ['type'=>'number', 'column'=>4, 'name'=>'cedula', 'label'=>'Cédula', 'options'=>['size' => '999999999999999'] ])
 
+@include('widgets.forms.input', ['type'=>'number', 'column'=>4, 'name'=>'saldo', 'label'=>'Saldo', 'options'=>['size' => '999999999999999'] ])
+
 @include('widgets.forms.input', ['type'=>'email', 'column'=>8, 'name'=>'email', 'label'=>'Correo electrónico'])
 
 @include('widgets.forms.input', ['type'=>'select', 'name'=>'roles_ids', 'label'=>'Roles', 'data'=>$arrRoles, 'multiple'=>true,])

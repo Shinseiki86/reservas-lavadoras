@@ -91,6 +91,7 @@ class AuthController extends Controller
 		return Validator::make($data, [
 			'name' => 'required|max:255',
 			'username' => 'required|max:15|unique:users',
+			'saldo' => 'required|numeric',
 			'cedula' => 'required|max:15|unique:users',
 			'email' => 'required|email|max:255|unique:users',
 			'roles_ids' => 'required|array',
@@ -220,6 +221,7 @@ class AuthController extends Controller
 		//Validación de datos
 		$validator = Validator::make(request()->all(), [
 			'name' => 'required|max:255',
+			'saldo' => 'required|numeric',
 			'email' => 'required|email|max:255|unique:users,email,'.$usuario->id.',id',
 			'cedula' => 'required|numeric|unique:users,cedula,'.$usuario->id.',id',
 		]);
@@ -329,6 +331,7 @@ class AuthController extends Controller
 					'name',
 					'username',
 					'email',
+					'saldo',
 					'password',
 				])->first();
 
