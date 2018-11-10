@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use LAVA\Http\Controllers\Controller;
 use Carbon\Carbon;
 
+use LAVA\Models\User;
 use LAVA\Models\Reserva;
 use LAVA\Models\EstadoReserva;
 use LAVA\Models\Lavadora;
@@ -17,7 +18,7 @@ class ReservaController extends Controller
 
 	public function __construct()
 	{
-		$this->middleware('auth', [ 'except' => ['getReservas','delete', 'activar','confirmar','getLavadorasActivas', ] ]);
+		$this->middleware('auth', [ 'except' => ['getReservas','delete', 'activar','confirmar','getLavadorasActivas','finalizar', ] ]);
 		//parent::__construct();
 	}
 	
@@ -301,6 +302,42 @@ class ReservaController extends Controller
 				'data'   =>$reserva,
 				'status' =>true,
 				'mensaje'=>'Reserva activada'
+			]);
+		} else {
+			return json_encode([
+				'data'   =>[],
+				'status' =>false,
+				'mensaje'=>'Reserva no existe'
+			]);
+		}
+	}
+
+	/**
+	 * Muestra una lista de los registros.
+	 *
+	 * @return Response
+	 */
+	public function finalizar($RESE_ID)
+	{
+		$reserva = Reserva::find($RESE_ID);
+
+		if(isset($reserva)){
+			$reserva->update(['RESE_ACTIVADA'=>false, 'ESRE_ID'=>EstadoReserva::FINALIZADA]);
+			$user = User::where('username', $reserva->RESE_CREADOPOR)->first();
+
+			$now = Carbon::now();
+            $fechaini = Carbon::parse($reserva->RESE_FECHAINI)->second(0);
+            //$fechafin = $fechaini->copy()->addHours($reserva->RESE_HORAS);
+
+            $diff = $fechaini->diffInHours($now);
+            $precio = 2000;
+            $costo = $precio * $diff;
+            $user->saldo -= $costo;
+            $user->save();
+			return json_encode([
+				'data'   =>['saldo'=>$user->saldo, 'costo'=>$costo],
+				'status' =>true,
+				'mensaje'=>'Reserva finalizada'
 			]);
 		} else {
 			return json_encode([
