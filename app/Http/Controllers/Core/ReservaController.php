@@ -331,7 +331,7 @@ class ReservaController extends Controller
 
             $diff = $fechaini->diffInHours($now);
             $precio = 2000;
-            $costo = $precio * $diff;
+            $costo = $precio * ($diff+1);
             $user->saldo -= $costo;
             $user->save();
 			return json_encode([
