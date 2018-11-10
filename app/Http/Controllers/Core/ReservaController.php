@@ -128,7 +128,15 @@ class ReservaController extends Controller
 	 */
 	public function destroy($RESE_ID)
 	{
-		parent::destroyModel($RESE_ID);
+		//parent::destroyModel($RESE_ID);
+
+		$reserva = Reserva::find($RESE_ID);
+		if(isset($reserva)){
+			$reserva->delete();
+			flash_alert( 'Reserva '.$RESE_ID.' eliminada exitosamente.', 'success' );
+		}
+
+		return redirect()->route($this->route.'.index')->send();
 	}
 
 

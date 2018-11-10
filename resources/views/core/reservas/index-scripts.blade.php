@@ -259,11 +259,11 @@
 			var frmDelete = modal.find('#frmDelete');
 			if(userCurrent == RESE_CREADOPOR || rolCurrent == 'admin'){
 				frmDelete
-					.attr('action', 'reservas/'+calEvent.LAVA_ID)
+					.attr('action', 'reservas/'+calEvent.RESE_ID)
 					.removeClass('hide');
 			}else{
 				frmDelete
-					.attr('action', 'reservas/'+calEvent.LAVA_ID)
+					.attr('action', 'reservas/'+calEvent.RESE_ID)
 					.removeClass('hide');
 			}
 
